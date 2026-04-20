@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
 
 const port = 3000;
 
-connectDB.then(()=>{
+connectDB().then(()=>{
     app.listen(port, () => {
     console.log(`server is running on port ${port}`)
 })
