@@ -2,7 +2,9 @@ const express = require('express');
 const connectDB = require('./db');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
+
+app.use(express.json())
 
 app.get("/", (req, res) => {
     res.status(200).json(`Server running on port ${port}`)
