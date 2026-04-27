@@ -62,40 +62,44 @@ const extractDetails = (text) => {
 }
 
 
-router.post(
-    "/upload-pdf",
-    upload.single("pdf"),
-    async (req, res) => {
+router.post("/upload-pdf", upload.single("pdf"), async (req, res) => {
 
-        try {
+    try {
 
-            const filePath = req.file.path;
+        console.log("File received:", req.file);
 
-            const dataBuffer =
-                fs.readFileSync(filePath);
-
-            const pdfData =
-                await pdfParse(dataBuffer);
-
-            const text = pdfData.text;
-
-            const extractedData =
-                extractDetails(text);
-
-            res.json({
-                success: true,
-                data: extractedData
+        if (!req.file) {
+            return res.status(400).json({
+                message: "No file uploaded"
             });
-
-        } catch (error) {
-
-            res.status(500).json({
-                success: false,
-                message: error.message
-            });
-
         }
+
+        const filePath = req.file.path;
+
+        console.log("File path:", filePath);
+
+        const dataBuffer =
+            fs.readFileSync(filePath);
+
+        const pdfData =
+            await pdfParse(dataBuffer);
+
+        console.log("PDF text length:",
+            pdfData.text.length
+        );
+
+        res.json({
+            message: "PDF processed successfully"
+        });
+
+    } catch (error) {
+
+        console.error("ERROR:", error);
+
+        res.status(500).json({
+            message: error.message
+        });
     }
-);
+});
 
 module.exports = router;
