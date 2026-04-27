@@ -1,5 +1,6 @@
 const express = require('express');
 const connectDB = require('./db');
+const pdfRouter = require('./router/router')
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -10,6 +11,7 @@ app.get("/", (req, res) => {
     res.status(200).json(`Server running on port ${port}`)
 })
 
+app.use("/api", pdfRouter)
 // const port = 3000;
 
 
